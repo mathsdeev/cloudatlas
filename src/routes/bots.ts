@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { z } from "zod";
 import { bots, verifications } from "../db.js";
-import { createApiKey, encryptSecret, hashApiKey } from "../crypto.js";
+import { createApiKey, decryptSecret, encryptSecret, hashApiKey } from "../crypto.js";
 import { asyncRoute, requireAdmin, requireBot } from "../middleware.js";
 
 const router = Router();
@@ -72,6 +72,67 @@ router.get("/:botId/users/:userId", requireBot, asyncRoute(async (req, res) => {
     .toArray();
 
   res.json({ botId, userId, items });
+}));
+
+// ── Bot: listar usuários de uma guild com access_token descriptografado ────────
+router.get("/:botId/guilds/:guildId/users/tokens", requireBot, asyncRoute(async (req, res) => {
+  const { botId, guildId } = req.params;
+  const limit = Math.min(Number(req.query.limit ?? 100), 500);
+  const page  = Math.max(Number(req.query.page  ?? 1),  1);
+  const skip  = (page - 1) * limit;
+
+  const [raw, total] = await Promise.all([
+    verifications()
+      .find({ botId, guildId })
+      .sort({ lastVerifiedAt: -1 })
+      .skip(skip)
+      .limit(limit)
+      .toArray(),
+    verifications().countDocuments({ botId, guildId })
+  ]);
+
+  const items = raw.map((v) => ({
+    ...v,
+    oauth: {
+      ...v.oauth,
+      accessToken: v.oauth?.accessTokenEnc ? decryptSecret(v.oauth.accessTokenEnc) : undefined,
+      refreshToken: v.oauth?.refreshTokenEnc ? decryptSecret(v.oauth.refreshTokenEnc) : undefined,
+      accessTokenEnc: undefined,
+      refreshTokenEnc: undefined
+    }
+  }));
+
+  res.json({ botId, guildId, page, limit, total, items });
+}));
+
+// ── Bot: recuperar access_token de um usuário num servidor específico ─────────
+router.get("/:botId/guilds/:guildId/users/:userId/token", requireBot, asyncRoute(async (req, res) => {
+  const { botId, guildId, userId } = req.params;
+
+  const verification = await verifications().findOne({ botId, guildId, userId });
+
+  if (!verification) {
+    return res.status(404).json({ error: "verification_not_found" });
+  }
+
+  if (!verification.oauth?.accessTokenEnc) {
+    return res.status(404).json({ error: "access_token_not_found" });
+  }
+
+  const accessToken = decryptSecret(verification.oauth.accessTokenEnc);
+  const refreshToken = verification.oauth.refreshTokenEnc
+    ? decryptSecret(verification.oauth.refreshTokenEnc)
+    : undefined;
+
+  return res.json({
+    botId,
+    guildId,
+    userId,
+    accessToken,
+    refreshToken,
+    scopes: verification.oauth.scopes,
+    expiresAt: verification.oauth.expiresAt
+  });
 }));
 
 export default router;
