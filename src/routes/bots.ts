@@ -91,16 +91,17 @@ router.get("/:botId/guilds/:guildId/users/tokens", requireBot, asyncRoute(async 
     verifications().countDocuments({ botId, guildId })
   ]);
 
-  const items = raw.map((v) => ({
-    ...v,
-    oauth: {
-      ...v.oauth,
-      accessToken: v.oauth?.accessTokenEnc ? decryptSecret(v.oauth.accessTokenEnc) : undefined,
-      refreshToken: v.oauth?.refreshTokenEnc ? decryptSecret(v.oauth.refreshTokenEnc) : undefined,
-      accessTokenEnc: undefined,
-      refreshTokenEnc: undefined
-    }
-  }));
+  const items = raw.map((v) => {
+    const { accessTokenEnc, refreshTokenEnc, ...oauthRest } = v.oauth ?? {};
+    return {
+      ...v,
+      oauth: {
+        ...oauthRest,
+        accessToken: accessTokenEnc ? decryptSecret(accessTokenEnc) : null,
+        refreshToken: refreshTokenEnc ? decryptSecret(refreshTokenEnc) : null
+      }
+    };
+  });
 
   res.json({ botId, guildId, page, limit, total, items });
 }));
