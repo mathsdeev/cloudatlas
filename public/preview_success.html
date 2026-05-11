@@ -1,0 +1,333 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Verificacao concluida</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet">
+    <style>
+      :root {
+        --bg-color: #08090a;
+        --primary-color: #8b5cf6;
+        --text-primary: #f0f0f5;
+        --text-secondary: #a0a0ab;
+        --surface-dark: #101114;
+        --surface-medium: #1e1f24;
+        --surface-light: #2a2b30;
+        --border-color: #22242a;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      html,
+      body {
+        min-height: 100%;
+        font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        background-color: var(--bg-color);
+        color: var(--text-primary);
+        line-height: 1.6;
+        font-size: 15px;
+      }
+
+      .container {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 2rem;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+
+      header {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 0.8rem 0;
+        border-bottom: 1px solid var(--border-color);
+        margin-bottom: 3rem;
+      }
+
+      .header-title {
+        font-size: 0.9rem;
+        font-weight: 600;
+      }
+
+      .hero {
+        text-align: center;
+        margin-bottom: 3rem;
+      }
+
+      .hero h1 {
+        font-size: 2rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+        letter-spacing: 0;
+      }
+
+      .highlight,
+      .pre-title,
+      .feature-item-small i {
+        color: var(--primary-color);
+      }
+
+      .hero p {
+        font-size: 0.9rem;
+        color: var(--text-secondary);
+        max-width: 600px;
+        margin: 0 auto;
+      }
+
+      .verification-card,
+      .user-profile-card {
+        background-color: var(--surface-dark);
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+      }
+
+      .verification-card {
+        padding: 1.25rem 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 1.25rem;
+        margin-bottom: 2rem;
+      }
+
+      .icon-wrapper {
+        flex-shrink: 0;
+        width: 44px;
+        height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: var(--primary-color);
+        border-radius: 50%;
+      }
+
+      .icon-wrapper i {
+        font-size: 1.5rem;
+        color: #08090a;
+      }
+
+      .pre-title {
+        font-size: 0.65rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      .verification-card h3,
+      .user-info h3,
+      .feature-item-small h3 {
+        font-size: 1.1rem;
+        font-weight: 600;
+      }
+
+      .verification-card p,
+      .user-info p,
+      .feature-item-small p {
+        font-size: 0.85rem;
+        color: var(--text-secondary);
+      }
+
+      .user-profile-card {
+        padding: 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 1.5rem;
+        margin-bottom: 3rem;
+      }
+
+      .user-avatar {
+        width: 64px;
+        height: 64px;
+        border-radius: 50%;
+        border: 2px solid var(--primary-color);
+        object-fit: cover;
+        flex-shrink: 0;
+      }
+
+      .dotted-divider {
+        border: none;
+        border-top: 1px solid var(--border-color);
+        margin: 3rem 0;
+      }
+
+      .features-grid-3 {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 2rem;
+        margin-bottom: 3rem;
+      }
+
+      .feature-item-small {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+
+      .title-wrapper {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .title-wrapper i {
+        font-size: 1.1rem;
+      }
+
+      .title-wrapper h3 {
+        font-size: 0.9rem;
+      }
+
+      .footer-action {
+        text-align: center;
+        padding-bottom: 2rem;
+      }
+
+      .btn {
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        gap: 0.5rem;
+        border: none;
+        border-radius: 8px;
+        padding: 0.65rem 1.2rem;
+        font-size: 0.85rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: background-color 0.2s ease;
+        background-color: var(--surface-medium);
+        color: var(--text-primary);
+      }
+
+      .btn:hover {
+        background-color: var(--surface-light);
+      }
+
+      @media (max-width: 768px) {
+        .hero h1 {
+          font-size: 1.8rem;
+        }
+
+        .container {
+          padding: 1.5rem;
+        }
+
+        .features-grid-3 {
+          grid-template-columns: 1fr;
+          gap: 1.5rem;
+        }
+
+        .verification-card,
+        .user-profile-card {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+
+        .user-profile-card {
+          text-align: left;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <span class="header-title">Atlas</span>
+      </header>
+
+      <main>
+        <section class="hero">
+          <h1>Verificacao concluida com <span class="highlight">sucesso</span></h1>
+          <p>Sua conta foi verificada pelo Discord OAuth2. Voce ja pode voltar para o servidor.</p>
+        </section>
+
+        <div class="verification-card">
+          <div class="icon-wrapper">
+            <i class="ri-check-line"></i>
+          </div>
+          <div>
+            <span class="pre-title">Autenticacao OAuth2</span>
+            <h3 id="status-title">Verificacao concluida</h3>
+            <p id="status-text">Seu registro foi salvo para este bot e servidor.</p>
+          </div>
+        </div>
+
+        <div class="user-profile-card">
+          <img id="avatar" src="https://cdn.discordapp.com/embed/avatars/0.png" alt="Avatar do usuario" class="user-avatar">
+          <div class="user-info">
+            <h3 id="username">Usuario verificado</h3>
+            <p id="user-id">ID: -</p>
+            <p id="guild-id">Servidor: -</p>
+            <p id="bot-id">Bot: -</p>
+          </div>
+        </div>
+
+        <hr class="dotted-divider">
+
+        <section class="features-grid-3">
+          <div class="feature-item-small">
+            <div class="title-wrapper">
+              <i class="ri-shield-check-line"></i>
+              <h3>Registro separado</h3>
+            </div>
+            <p>Esta verificacao pertence apenas ao bot usado neste link.</p>
+          </div>
+
+          <div class="feature-item-small">
+            <div class="title-wrapper">
+              <i class="ri-database-2-line"></i>
+              <h3>Dados salvos</h3>
+            </div>
+            <p>Perfil, email autorizado e IP foram armazenados para consulta pela API.</p>
+          </div>
+
+          <div class="feature-item-small">
+            <div class="title-wrapper">
+              <i class="ri-lock-line"></i>
+              <h3>Tokens protegidos</h3>
+            </div>
+            <p>Tokens OAuth ficam criptografados e nao aparecem nesta pagina.</p>
+          </div>
+        </section>
+
+        <div class="footer-action">
+          <button type="button" class="btn" onclick="window.close()">
+            Fechar janela
+            <i class="ri-arrow-right-s-line"></i>
+          </button>
+        </div>
+      </main>
+    </div>
+
+    <script>
+      const params = new URLSearchParams(window.location.search);
+      const joined = params.get("joined") === "1";
+      const username = params.get("username") || "Usuario verificado";
+      const avatar = params.get("avatar");
+
+      document.getElementById("status-title").textContent = joined
+        ? "Verificacao concluida e membro adicionado"
+        : "Verificacao concluida";
+      document.getElementById("status-text").textContent = joined
+        ? "Seu acesso foi autorizado e o bot adicionou sua conta ao servidor."
+        : "Seu acesso foi autorizado e salvo para consulta do bot.";
+      document.getElementById("username").textContent = username;
+      document.getElementById("user-id").textContent = `ID: ${params.get("userId") || "-"}`;
+      document.getElementById("guild-id").textContent = `Servidor: ${params.get("guildId") || "-"}`;
+      document.getElementById("bot-id").textContent = `Bot: ${params.get("botId") || "-"}`;
+
+      if (avatar) {
+        document.getElementById("avatar").src = avatar;
+      }
+    </script>
+  </body>
+</html>

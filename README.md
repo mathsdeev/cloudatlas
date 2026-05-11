@@ -61,12 +61,16 @@ Depois do callback, a API salva:
 - IP e dados do IPInfo quando `IPINFO_TOKEN` estiver configurado
 - resultado da tentativa de adicionar o usuario ao servidor
 
+Ao finalizar, o callback redireciona para `/preview_success.html`. Essa pagina mostra apenas dados publicos da verificacao; os tokens OAuth ficam criptografados no MongoDB e nao sao enviados para o navegador.
+
 ## Buscar usuarios verificados de um servidor
 
 ```http
 GET /api/bots/BOT_ID/guilds/SERVER_ID/users?page=1&limit=100
 x-bot-api-key: ca_xxx
 ```
+
+Cada bot consulta somente os proprios membros verificados. A separacao e feita por `botId`, entao o mesmo usuario verificado no Bot 1 e no Bot 2 gera registros independentes.
 
 ## Buscar verificacoes de um usuario
 

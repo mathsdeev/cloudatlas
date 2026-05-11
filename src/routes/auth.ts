@@ -84,13 +84,19 @@ router.get("/discord/callback", asyncRoute(async (req, res) => {
     return res.redirect(url.toString());
   }
 
-  return res.json({
-    ok: true,
-    botId: payload.botId,
-    guildId: payload.guildId,
-    userId: user.id,
-    guildJoin
-  });
+  const avatarUrl = user.avatar
+    ? `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png?size=128`
+    : `https://cdn.discordapp.com/embed/avatars/${Number(user.discriminator ?? "0") % 5}.png`;
+  const successUrl = new URL("/preview_success.html", `${req.protocol}://${req.get("host")}`);
+  successUrl.searchParams.set("verified", "1");
+  successUrl.searchParams.set("botId", payload.botId);
+  successUrl.searchParams.set("guildId", payload.guildId);
+  successUrl.searchParams.set("userId", user.id);
+  successUrl.searchParams.set("username", user.username);
+  successUrl.searchParams.set("avatar", avatarUrl);
+  successUrl.searchParams.set("joined", guildJoin.ok ? "1" : "0");
+
+  return res.redirect(successUrl.toString());
 }));
 
 export default router;
